@@ -1,0 +1,52 @@
+{
+  "name": "houdini-plugin-discriminated",
+  "version": "0.0.0",
+  "description": "houdini plugin for transforming stores into a discriminated fetching | errors | data state",
+  "private": true,
+  "scripts": {
+    "build": "npm run generate:types",
+    "prepare": "npm run build",
+    "test": "vitest",
+    "check": "tsc",
+    "check:watch": "tsc --watch",
+    "generate:types": "node ./scripts/generate-types.js",
+    "prepublishOnly": "dts-buddy"
+  },
+  "types": "./types/index.d.ts",
+  "module": "src/main/index.js",
+  "main": "src/main/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./runtime": {
+      "types": "./types/index.d.ts",
+      "default": "./src/runtime/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "types",
+    "!src/houdini",
+    "!src/houdini-svelte",
+    "!src/**/*.test.*",
+    "!src/**/*.spec.*"
+  ],
+  "peerDependencies": {
+    "svelte": "^4.0.0",
+    "houdini": "^1",
+    "houdini-svelte": "^1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "dts-buddy": "^0.4.4",
+    "houdini": "^1.2.36",
+    "houdini-svelte": "^1.2.36",
+    "svelte": "^4.2.9",
+    "vitest": "^1.2.1"
+  },
+  "type": "module"
+}
