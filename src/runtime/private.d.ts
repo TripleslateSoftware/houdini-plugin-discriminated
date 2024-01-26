@@ -1,6 +1,6 @@
 import type { Readable, Writable } from "svelte/store";
 
-export type IncomingState<Data = any> = {
+export interface IncomingState<Data = any> {
   data: Data | null;
   errors:
     | {
@@ -8,28 +8,30 @@ export type IncomingState<Data = any> = {
       }[]
     | null;
   fetching: boolean;
-};
+}
 
-export type BaseStore<Data> = Readable<IncomingState<Data>>;
+export interface BaseStore<State extends IncomingState>
+  extends Readable<State> {}
 
-export type DataState<T> = { data: T; fetching: false; errors?: never };
-export type FetchingState = { data?: never; fetching: true; errors?: never };
-export type ErrorsState = {
+export interface DataState<T> {
+  data: T;
+  fetching: false;
+  errors?: never;
+}
+export interface FetchingState {
+  data?: never;
+  fetching: true;
+  errors?: never;
+}
+export interface ErrorsState {
   data?: never;
   errors: NonNullable<IncomingState["errors"]>;
   fetching: false;
-};
-export type WritableDiscriminatedState<T> = Writable<
-  DataState<T> | FetchingState | ErrorsState
->;
+}
 
-export type StoreValue<Store> = Store extends BaseStore<infer State>
-  ? State
-  : never;
-export type StoreData<Store> = Store extends BaseStore<infer State>
-  ? State extends IncomingState<infer Data>
-    ? Data
-    : never
+export type StoreValue<Store> = Store extends Readable<infer T> ? T : never;
+export type StoreData<Store> = Store extends BaseStore<infer Data>
+  ? Data
   : never;
 
 /**

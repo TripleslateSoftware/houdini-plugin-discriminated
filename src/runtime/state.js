@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
 /**
- * @template {import('./private.js').BaseStore<any>} Store
+ * @template {import("./private").BaseStore<any>} Store
  * @template Transformed
  * @template Rest
  *
@@ -23,52 +23,52 @@ export function discriminatedState(statedStore, subscriber, rest) {
   const makeErrors = (/** @type {string[]} */ messages) =>
     messages.map((message) => ({ message: message }));
 
-  statedStore.subscribe(
-    async (
-      /** @type {import("./private.js").StoreValue<Store>} */ $statedStore
-    ) => {
-      if ($statedStore.fetching) {
-        // console.log($statedStore);
+  const statedStoreSubscriber = async (
+    /** @type {import("./private.js").StoreValue<Store>} */ $statedStore
+  ) => {
+    if ($statedStore.fetching) {
+      // console.log($statedStore);
+      store.set({
+        ...((await rest?.($statedStore)) ?? {}),
+        fetching: true,
+        data: undefined,
+        errors: undefined,
+      });
+    } else if ($statedStore.errors) {
+      store.set({
+        ...((await rest?.($statedStore)) ?? {}),
+        fetching: false,
+        errors: $statedStore.errors,
+        data: undefined,
+      });
+    } else if (!$statedStore.data) {
+      store.set({
+        ...((await rest?.($statedStore)) ?? {}),
+        fetching: false,
+        errors: makeErrors(["Could not retrieve data."]),
+        data: undefined,
+      });
+    } else {
+      try {
+        const data = await subscriber($statedStore.data);
         store.set({
           ...((await rest?.($statedStore)) ?? {}),
-          fetching: true,
-          data: undefined,
+          fetching: false,
           errors: undefined,
+          data,
         });
-      } else if ($statedStore.errors) {
+      } catch (/** @type {any} */ errors) {
         store.set({
           ...((await rest?.($statedStore)) ?? {}),
           fetching: false,
-          errors: $statedStore.errors,
+          errors: makeErrors(typeof errors === "string" ? [errors] : errors),
           data: undefined,
         });
-      } else if (!$statedStore.data) {
-        store.set({
-          ...((await rest?.($statedStore)) ?? {}),
-          fetching: false,
-          errors: makeErrors(["Could not retrieve data."]),
-          data: undefined,
-        });
-      } else {
-        try {
-          const data = await subscriber($statedStore.data);
-          store.set({
-            ...((await rest?.($statedStore)) ?? {}),
-            fetching: false,
-            errors: undefined,
-            data,
-          });
-        } catch (/** @type {any} */ errors) {
-          store.set({
-            ...((await rest?.($statedStore)) ?? {}),
-            fetching: false,
-            errors: makeErrors(typeof errors === "string" ? [errors] : errors),
-            data: undefined,
-          });
-        }
       }
     }
-  );
+  };
+
+  statedStore.subscribe(statedStoreSubscriber);
 
   return {
     subscribe: store.subscribe,
