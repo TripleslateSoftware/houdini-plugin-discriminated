@@ -1,30 +1,35 @@
-import { test, describe, expect } from "vitest";
-import { get, writable } from "svelte/store";
+import { test, describe, expect } from 'vitest';
+import { get, writable } from 'svelte/store';
 
-import { discriminatedState } from "../runtime/state";
-import type { IncomingState } from "../runtime/private";
+import { discriminatedState } from '../runtime/state';
+import type { IncomingState } from '../runtime/private';
 
-describe("discriminatedState", async () => {
+describe('discriminatedState', async () => {
   const data = {
-    name: "hello",
+    name: 'hello'
   };
   const errors = [
     {
-      message: "error",
-    },
+      message: 'error'
+    }
   ];
+  const variables = ['test'];
 
-  const statedStore = writable<IncomingState<typeof data>>({
+  const statedStore = writable<IncomingState<typeof data> & { variables: string[] }>({
     data: null,
     fetching: true,
     errors: null,
+    variables: []
   });
   const discriminatedStore = discriminatedState(
     statedStore,
-    (data) => data.name
+    (data) => data.name,
+    (value) => ({
+      variables: value.variables
+    })
   );
 
-  test("initial state fetching", async function () {
+  test('initial state fetching', async function () {
     const $discriminatedStore = get(discriminatedStore);
     expect($discriminatedStore.fetching).toBe(true);
     // with undefined data
@@ -33,11 +38,12 @@ describe("discriminatedState", async () => {
     expect($discriminatedStore.errors).toBe(undefined);
   });
 
-  test("errors state", async () => {
+  test('errors state', async () => {
     statedStore.set({
       data: null,
       fetching: false,
       errors: errors,
+      variables: variables
     });
     const $discriminatedStore = get(discriminatedStore);
     expect($discriminatedStore.errors).toBe(errors);
@@ -45,13 +51,16 @@ describe("discriminatedState", async () => {
     expect($discriminatedStore.fetching).toBe(false);
     // with undefined data
     expect($discriminatedStore.data).toBe(undefined);
+    // with variables
+    expect($discriminatedStore.variables).toBe(variables);
   });
 
-  test("data state", async () => {
+  test('data state', async () => {
     statedStore.set({
       data,
       fetching: false,
       errors: null,
+      variables: variables
     });
     const $discriminatedStore = get(discriminatedStore);
     expect($discriminatedStore.data).toBe(data.name);
@@ -59,5 +68,7 @@ describe("discriminatedState", async () => {
     expect($discriminatedStore.fetching).toBe(false);
     // with undefined errors
     expect($discriminatedStore.errors).toBe(undefined);
+    // with variables
+    expect($discriminatedStore.variables).toBe(variables);
   });
 });
