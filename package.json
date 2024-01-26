@@ -32,6 +32,7 @@
     "types",
     "!src/houdini",
     "!src/houdini-svelte",
+    "!src/runtime-test",
     "!src/**/*.test.*",
     "!src/**/*.spec.*"
   ],

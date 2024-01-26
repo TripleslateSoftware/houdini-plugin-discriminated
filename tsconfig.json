@@ -19,5 +19,5 @@
       "houdini-plugin-discriminated/runtime": ["./src/runtime/public.d.ts"]
     }
   },
-  "include": ["./src", "./tests/*/test.ts"]
+  "include": ["./src"]
 }

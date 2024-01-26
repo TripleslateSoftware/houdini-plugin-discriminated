@@ -1,4 +1,4 @@
-import { derived, get, writable } from "svelte/store";
+import { writable } from "svelte/store";
 
 /**
  * @template {import('./private.js').BaseStore<any>} Store
@@ -20,55 +20,55 @@ export function discriminatedState(statedStore, subscriber, rest) {
     data: undefined,
   });
 
-  const stateStoreSubscriber = async (
-    /** @type {import("./private.js").StoreValue<Store>} */ $statedStore
-  ) => {
-    if ($statedStore.fetching) {
-      // console.log($statedStore);
-      store.set({
-        ...(rest?.($statedStore) ?? {}),
-        fetching: true,
-        data: undefined,
-        errors: undefined,
-      });
-    } else if ($statedStore.errors) {
-      store.set({
-        ...(rest?.($statedStore) ?? {}),
-        fetching: false,
-        errors: $statedStore.errors,
-        data: undefined,
-      });
-    } else if (!$statedStore.data) {
-      store.set({
-        ...(rest?.($statedStore) ?? {}),
-        fetching: false,
-        errors: makeErrors(["Could not retrieve data."]),
-        data: undefined,
-      });
-    } else {
-      try {
-        const data = await subscriber($statedStore.data);
-        store.set({
-          ...(rest?.($statedStore) ?? {}),
-          fetching: false,
-          errors: undefined,
-          data,
-        });
-      } catch (/** @type {any} */ errors) {
-        store.set({
-          ...(rest?.($statedStore) ?? {}),
-          fetching: false,
-          errors: makeErrors(typeof errors === "string" ? [errors] : errors),
-          data: undefined,
-        });
-      }
-    }
-  };
-
   const makeErrors = (/** @type {string[]} */ messages) =>
     messages.map((message) => ({ message: message }));
 
-  statedStore.subscribe(stateStoreSubscriber);
+  statedStore.subscribe(
+    async (
+      /** @type {import("./private.js").StoreValue<Store>} */ $statedStore
+    ) => {
+      if ($statedStore.fetching) {
+        // console.log($statedStore);
+        store.set({
+          ...((await rest?.($statedStore)) ?? {}),
+          fetching: true,
+          data: undefined,
+          errors: undefined,
+        });
+      } else if ($statedStore.errors) {
+        store.set({
+          ...((await rest?.($statedStore)) ?? {}),
+          fetching: false,
+          errors: $statedStore.errors,
+          data: undefined,
+        });
+      } else if (!$statedStore.data) {
+        store.set({
+          ...((await rest?.($statedStore)) ?? {}),
+          fetching: false,
+          errors: makeErrors(["Could not retrieve data."]),
+          data: undefined,
+        });
+      } else {
+        try {
+          const data = await subscriber($statedStore.data);
+          store.set({
+            ...((await rest?.($statedStore)) ?? {}),
+            fetching: false,
+            errors: undefined,
+            data,
+          });
+        } catch (/** @type {any} */ errors) {
+          store.set({
+            ...((await rest?.($statedStore)) ?? {}),
+            fetching: false,
+            errors: makeErrors(typeof errors === "string" ? [errors] : errors),
+            data: undefined,
+          });
+        }
+      }
+    }
+  );
 
   return {
     subscribe: store.subscribe,

@@ -1,8 +1,8 @@
 import { test, describe, expect } from "vitest";
 import { get, writable } from "svelte/store";
 
-import { discriminatedState } from "./state";
-import type { IncomingState } from "./private";
+import { discriminatedState } from "../runtime/state";
+import type { IncomingState } from "../runtime/private";
 
 describe("discriminatedState", async () => {
   const data = {

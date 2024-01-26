@@ -10,7 +10,7 @@ export type IncomingState<Data = any> = {
   fetching: boolean;
 };
 
-export type BaseStore<T extends IncomingState> = Readable<T>;
+export type BaseStore<Data> = Readable<IncomingState<Data>>;
 
 export type DataState<T> = { data: T; fetching: false; errors?: never };
 export type FetchingState = { data?: never; fetching: true; errors?: never };
@@ -23,10 +23,12 @@ export type WritableDiscriminatedState<T> = Writable<
   DataState<T> | FetchingState | ErrorsState
 >;
 
-export type StoreValue<T> = T extends BaseStore<infer U> ? U : never;
-export type StoreData<T> = T extends BaseStore<infer U>
-  ? U extends IncomingState<infer V>
-    ? V
+export type StoreValue<Store> = Store extends BaseStore<infer State>
+  ? State
+  : never;
+export type StoreData<Store> = Store extends BaseStore<infer State>
+  ? State extends IncomingState<infer Data>
+    ? Data
     : never
   : never;
 

@@ -2,6 +2,7 @@
 	"version": 3,
 	"file": "index.d.ts",
 	"names": [
+		"pluginHooks",
 		"DiscriminatedState",
 		"IncomingState",
 		"DataState",
@@ -15,6 +16,7 @@
 		"QueryResult"
 	],
 	"sources": [
+		"../src/index.js",
 		"../src/runtime/public.d.ts",
 		"../src/runtime/private.d.ts",
 		"../src/runtime/index.js",
@@ -26,7 +28,8 @@
 		null,
 		null,
 		null,
+		null,
 		null
 	],
-	"mappings": ";;;;;;;;aAEYA,kBAAkBA;OCAlBC,aAAaA;;;;;;;;;;;;OAYbC,SAASA;OACTC,aAAaA;OACbC,WAAWA;;;;;;OAOXC,UAAUA;OACVC,SAASA;;;;;;;OAQTC,UAAUA;;;iBCtBNC,aAAaA;YCLJC,SAASA;;;;;;;OCLtBC,WAAWA"
+	"mappings": ";iBAGaA,WAAWA;;;;;;;;aCDZC,kBAAkBA;OCAlBC,aAAaA;;;;;;;;;;;;OAYbC,SAASA;OACTC,aAAaA;OACbC,WAAWA;;;;;;OASXC,UAAUA;;;OAGVC,SAASA;;;;;;;;;;OAWTC,UAAUA;;;;;iBC7BNC,aAAaA;YCLJC,SAASA;;;;;;;OCLtBC,WAAWA"
 }
