@@ -38,9 +38,9 @@
     "!src/**/*.spec.*"
   ],
   "peerDependencies": {
-    "svelte": "^4.0.0",
     "houdini": "^1",
-    "houdini-svelte": "^1"
+    "houdini-svelte": "^1",
+    "svelte": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",

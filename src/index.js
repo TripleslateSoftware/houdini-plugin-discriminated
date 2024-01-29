@@ -15,6 +15,6 @@ export const pluginHooks = async () => ({
   }
 });
 
-export default plugin('houdini-plugin-discriminated-state', async () => {
+export default plugin('houdini-plugin-discriminated', async () => {
   return pluginHooks();
 });

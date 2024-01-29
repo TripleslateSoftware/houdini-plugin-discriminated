@@ -4,7 +4,9 @@
 	"names": [
 		"pluginHooks",
 		"DiscriminatedState",
+		"Discriminated",
 		"IncomingState",
+		"StatedStore",
 		"DataState",
 		"FetchingState",
 		"ErrorsState",
@@ -12,6 +14,7 @@
 		"StoreData",
 		"Subscriber",
 		"discriminated",
+		"discriminatedBase",
 		"BaseStore",
 		"QueryResult"
 	],
@@ -20,6 +23,7 @@
 		"../src/runtime/public.d.ts",
 		"../src/runtime/private.d.ts",
 		"../src/runtime/index.js",
+		"../src/runtime/base.js",
 		"../src/houdini-svelte/index.d.ts",
 		"../src/houdini/index.d.ts"
 	],
@@ -29,7 +33,8 @@
 		null,
 		null,
 		null,
+		null,
 		null
 	],
-	"mappings": ";iBAGaA,WAAWA;;;;;;;;aCDZC,kBAAkBA;OCAlBC,aAAaA;;;;;;;;;;YAYRC,SAASA;;;;;YAKTC,aAAaA;;;;;YAKbC,WAAWA;;;;;;OAMhBC,UAAUA;;OAEVC,SAASA;;;;;;;;;;;OAYTC,UAAUA;;;iBClCNC,aAAaA;YCLJC,SAASA;;;;;;;OCLtBC,WAAWA"
+	"mappings": ";iBAGaA,WAAWA;;;;;;;;aCAZC,kBAAkBA;aAClBC,aAAaA;OCFbC,aAAaA;;;;;;;;;;YAURC,WAAWA;;YAEXC,SAASA;;;;;YAKTC,aAAaA;;;;;YAKbC,WAAWA;;;;;;OAMhBC,UAAUA;;OAEVC,SAASA;;;;;;;;;;;OAYTC,UAAUA;;;iBClCNC,aAAaA;iBCEbC,iBAAiBA;YCPRC,SAASA;;;;;;;OCLtBC,WAAWA"
 }

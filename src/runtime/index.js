@@ -1,4 +1,4 @@
-import { discriminatedState } from './state.js';
+import { discriminatedBase } from './base.js';
 
 /**
  * @template {import("../houdini-svelte/index.js").BaseStore<any, any, any>} Store
@@ -9,7 +9,7 @@ import { discriminatedState } from './state.js';
  * @returns {import("svelte/store").Readable<import("./public.js").DiscriminatedState<Transformed> & Omit<import("./private.js").StoreValue<Store>, keyof import("./public.js").DiscriminatedState<Transformed>>>}
  */
 export function discriminated(statedStore, subscriber) {
-  return discriminatedState(statedStore, subscriber, ($statedStore) => ({
+  return discriminatedBase(statedStore, subscriber, ($statedStore) => ({
     ...$statedStore
   }));
 }

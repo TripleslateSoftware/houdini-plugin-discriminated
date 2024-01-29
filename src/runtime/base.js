@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 /**
  * @template {import("./private").StatedStore<any>} Store
@@ -7,14 +7,15 @@ import { writable } from 'svelte/store';
  *
  * @param {Store} statedStore
  * @param {import('./private.js').Subscriber<import('./private').StoreData<Store>, Transformed>} subscriber
- * @param {import('./private.js').Subscriber<import('./private').StoreValue<Store>, Rest>=} rest
- * @returns {import('svelte/store').Readable<import('./public.js').DiscriminatedState<Transformed> & Rest>}
+ * @param {import('./private.js').Subscriber<import('./private').StoreValue<Store>, Rest>=} restSubscriber
+ * @returns {import('./public').Discriminated<Transformed, Rest>}
  */
-export function discriminatedState(statedStore, subscriber, rest) {
+export function discriminatedBase(statedStore, subscriber, restSubscriber) {
   /**
-   * @type {import('svelte/store').Writable<import('./public.js').DiscriminatedState<Transformed>>}
+   * @type {import('svelte/store').Writable<import('./public.js').DiscriminatedState<Transformed> & Rest>}
    */
   const store = writable({
+    ...restSubscriber?.(get(statedStore)),
     fetching: true,
     errors: undefined,
     data: undefined
@@ -25,44 +26,55 @@ export function discriminatedState(statedStore, subscriber, rest) {
 
   /** @type {import('svelte/store').Subscriber<import('./private').StoreValue<Store>>} */
   const statedStoreSubscriber = async ($statedStore) => {
+    const rest = await restSubscriber?.($statedStore);
     if ($statedStore.fetching) {
-      // console.log($statedStore);
-      store.set({
-        ...((await rest?.($statedStore)) ?? {}),
+      /** @type {import('./private').FetchingState} */
+      const state = {
+        ...rest,
         fetching: true,
         data: undefined,
         errors: undefined
-      });
+      };
+      store.set(state);
     } else if ($statedStore.errors) {
-      store.set({
-        ...((await rest?.($statedStore)) ?? {}),
+      /** @type {import('./private').ErrorsState} */
+      const state = {
+        ...rest,
         fetching: false,
         errors: $statedStore.errors,
         data: undefined
-      });
+      };
+      store.set(state);
     } else if (!$statedStore.data) {
-      store.set({
-        ...((await rest?.($statedStore)) ?? {}),
+      /** @type {import('./private').ErrorsState} */
+      const state = {
+        ...rest,
         fetching: false,
         errors: makeErrors(['Could not retrieve data.']),
         data: undefined
-      });
+      };
+      store.set(state);
     } else {
       try {
         const data = await subscriber($statedStore.data);
-        store.set({
-          ...((await rest?.($statedStore)) ?? {}),
+
+        /** @type {import('./private').DataState<Transformed>} */
+        const state = {
+          ...rest,
           fetching: false,
           errors: undefined,
           data
-        });
+        };
+        store.set(state);
       } catch (/** @type {any} */ errors) {
-        store.set({
-          ...((await rest?.($statedStore)) ?? {}),
+        /** @type {import('./private').ErrorsState} */
+        const state = {
+          ...rest,
           fetching: false,
           errors: makeErrors(typeof errors === 'string' ? [errors] : errors),
           data: undefined
-        });
+        };
+        store.set(state);
       }
     }
   };
