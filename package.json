@@ -1,41 +1,13 @@
 {
   "name": "houdini-plugin-discriminated",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "houdini plugin for transforming stores into a discriminated fetching | errors | data state",
-  "private": true,
-  "scripts": {
-    "test": "vitest",
-    "check": "tsc",
-    "check:watch": "tsc --watch",
-    "format": "prettier . --write",
-    "generate:types": "dts-buddy && npm run format",
-    "prepublishOnly": "npm run generate:types"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TripleslateSoftware/houdini-plugin-discriminated"
   },
-  "types": "./types/index.d.ts",
-  "module": "src/main/index.js",
-  "main": "src/main/index.js",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./types/index.d.ts",
-      "import": "./src/index.js",
-      "default": "./src/index.js"
-    },
-    "./runtime": {
-      "types": "./types/index.d.ts",
-      "import": "./src/runtime/index.js",
-      "default": "./src/runtime/index.js"
-    }
-  },
-  "files": [
-    "src",
-    "types",
-    "!src/houdini",
-    "!src/houdini-svelte",
-    "!src/runtime-test",
-    "!src/**/*.test.*",
-    "!src/**/*.spec.*"
-  ],
+  "license": "MIT",
+  "type": "module",
   "peerDependencies": {
     "houdini": "^1",
     "houdini-svelte": "^1",
@@ -50,5 +22,38 @@
     "svelte": "^4.2.9",
     "vitest": "^1.2.1"
   },
-  "type": "module"
+  "scripts": {
+    "test": "vitest",
+    "check": "tsc",
+    "check:watch": "tsc --watch",
+    "format": "prettier . --write",
+    "generate:types": "dts-buddy && npm run format",
+    "prepublishOnly": "npm run generate:types"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./runtime": {
+      "types": "./types/index.d.ts",
+      "import": "./src/runtime/index.js",
+      "default": "./src/runtime/index.js"
+    }
+  },
+  "types": "./types/index.d.ts",
+  "files": [
+    "src",
+    "types",
+    "!src/houdini",
+    "!src/houdini-svelte",
+    "!src/runtime-test",
+    "!src/**/*.test.*",
+    "!src/**/*.spec.*"
+  ],
+  "module": "src/main/index.js",
+  "main": "src/main/index.js",
+  "packageManager": "pnpm@8.8.0"
 }
