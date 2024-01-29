@@ -6,11 +6,11 @@ import { get, writable } from 'svelte/store';
  * @template Rest
  *
  * @param {Store} statedStore
- * @param {import('./private.js').Subscriber<import('./private').StoreData<Store>, Transformed>} subscriber
+ * @param {import('./private.js').Subscriber<import('./private').StoreData<Store>, Transformed>} dataSubscriber
  * @param {import('./private.js').Subscriber<import('./private').StoreValue<Store>, Rest>=} restSubscriber
- * @returns {import('./public').Discriminated<Transformed, Rest>}
+ * @returns {import('./public.js').Discriminated<Transformed, Rest>}
  */
-export function discriminatedBase(statedStore, subscriber, restSubscriber) {
+export function discriminatedBase(statedStore, dataSubscriber, restSubscriber) {
   /**
    * @type {import('svelte/store').Writable<import('./public.js').DiscriminatedState<Transformed> & Rest>}
    */
@@ -56,7 +56,7 @@ export function discriminatedBase(statedStore, subscriber, restSubscriber) {
       store.set(state);
     } else {
       try {
-        const data = await subscriber($statedStore.data);
+        const data = await dataSubscriber($statedStore.data);
 
         /** @type {import('./private').DataState<Transformed>} */
         const state = {

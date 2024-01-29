@@ -7,6 +7,19 @@ declare module 'houdini-plugin-discriminated' {
 declare module 'houdini-plugin-discriminated/runtime' {
   import type { Readable } from 'svelte/store';
   import type { DocumentArtifact, GraphQLObject, GraphQLVariables } from 'houdini';
+  export function discriminated<Store extends BaseStore<any, any, any>, Transformed>(
+    statedStore: Store,
+    subscriber: Subscriber<StoreData<Store>, Transformed>
+  ): Readable<
+    DiscriminatedState<Transformed> & Omit<StoreValue<Store>, keyof DiscriminatedState<Transformed>>
+  >;
+  interface BaseStore<
+    _Data extends GraphQLObject,
+    _Input extends GraphQLVariables,
+    _Artifact extends DocumentArtifact = DocumentArtifact
+  > {
+    subscribe(...args: Parameters<Readable<QueryResult<_Data, _Input>>['subscribe']>): () => void;
+  }
   export type DiscriminatedState<T> = DataState<T> | FetchingState | ErrorsState;
   export type Discriminated<T, Rest> = Readable<DiscriminatedState<T> & Rest>;
   type IncomingState<Data = any> = {
@@ -51,26 +64,6 @@ declare module 'houdini-plugin-discriminated/runtime' {
    *
    * */
   type Subscriber<T, Transformed> = (value: T) => Promise<Transformed> | Transformed;
-  /// <reference types="svelte" />
-
-  export function discriminated<Store extends BaseStore<any, any, any>, Transformed>(
-    statedStore: Store,
-    subscriber: Subscriber<StoreData<Store>, Transformed>
-  ): import('svelte/store').Readable<
-    DiscriminatedState<Transformed> & Omit<StoreValue<Store>, 'data' | 'errors' | 'fetching'>
-  >;
-  export function discriminatedBase<Store extends StatedStore<any>, Transformed, Rest>(
-    statedStore: Store,
-    subscriber: Subscriber<StoreData<Store>, Transformed>,
-    restSubscriber?: Subscriber<StoreValue<Store>, Rest> | undefined
-  ): Discriminated<Transformed, Rest>;
-  interface BaseStore<
-    _Data extends GraphQLObject,
-    _Input extends GraphQLVariables,
-    _Artifact extends DocumentArtifact = DocumentArtifact
-  > {
-    subscribe(...args: Parameters<Readable<QueryResult<_Data, _Input>>['subscribe']>): () => void;
-  }
   type QueryResult<_Data = any, _Input = any> = {
     data: _Data | null;
     errors:
@@ -80,6 +73,11 @@ declare module 'houdini-plugin-discriminated/runtime' {
       | null;
     fetching: boolean;
   };
+  export function discriminatedBase<Store extends StatedStore<any>, Transformed, Rest>(
+    statedStore: Store,
+    dataSubscriber: Subscriber<StoreData<Store>, Transformed>,
+    restSubscriber?: Subscriber<StoreValue<Store>, Rest> | undefined
+  ): Discriminated<Transformed, Rest>;
 }
 
 //# sourceMappingURL=index.d.ts.map

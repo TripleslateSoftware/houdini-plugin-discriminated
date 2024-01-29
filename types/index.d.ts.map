@@ -3,6 +3,8 @@
 	"file": "index.d.ts",
 	"names": [
 		"pluginHooks",
+		"discriminated",
+		"BaseStore",
 		"DiscriminatedState",
 		"Discriminated",
 		"IncomingState",
@@ -13,19 +15,17 @@
 		"StoreValue",
 		"StoreData",
 		"Subscriber",
-		"discriminated",
-		"discriminatedBase",
-		"BaseStore",
-		"QueryResult"
+		"QueryResult",
+		"discriminatedBase"
 	],
 	"sources": [
 		"../src/index.js",
+		"../src/runtime/index.d.ts",
+		"../src/houdini-svelte/index.d.ts",
 		"../src/runtime/public.d.ts",
 		"../src/runtime/private.d.ts",
-		"../src/runtime/index.js",
-		"../src/runtime/base.js",
-		"../src/houdini-svelte/index.d.ts",
-		"../src/houdini/index.d.ts"
+		"../src/houdini/index.d.ts",
+		"../src/runtime/base.js"
 	],
 	"sourcesContent": [
 		null,
@@ -36,5 +36,5 @@
 		null,
 		null
 	],
-	"mappings": ";iBAGaA,WAAWA;;;;;;;;aCAZC,kBAAkBA;aAClBC,aAAaA;OCFbC,aAAaA;;;;;;;;;;YAURC,WAAWA;;YAEXC,SAASA;;;;;YAKTC,aAAaA;;;;;YAKbC,WAAWA;;;;;;OAMhBC,UAAUA;;OAEVC,SAASA;;;;;;;;;;;OAYTC,UAAUA;;;iBClCNC,aAAaA;iBCEbC,iBAAiBA;YCPRC,SAASA;;;;;;;OCLtBC,WAAWA"
+	"mappings": ";iBAGaA,WAAWA;;;;;;;;kBCMRC,aAAaA;;;;;;YCJJC,SAASA;;;;;;;aCFtBC,kBAAkBA;aAClBC,aAAaA;OCFbC,aAAaA;;;;;;;;;;YAURC,WAAWA;;YAEXC,SAASA;;;;;YAKTC,aAAaA;;;;;YAKbC,WAAWA;;;;;;OAMhBC,UAAUA;;OAEVC,SAASA;;;;;;;;;;;OAYTC,UAAUA;OC5CVC,WAAWA;;;;;;;;;iBCYPC,iBAAiBA"
 }

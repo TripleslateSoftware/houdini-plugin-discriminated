@@ -4,14 +4,12 @@
   "description": "houdini plugin for transforming stores into a discriminated fetching | errors | data state",
   "private": true,
   "scripts": {
-    "build": "npm run generate:types",
-    "prepare": "npm run build",
     "test": "vitest",
     "check": "tsc",
     "check:watch": "tsc --watch",
-    "generate:types": "node ./scripts/generate-types.js && prettier types --write",
     "format": "prettier . --write",
-    "prepublishOnly": "dts-buddy"
+    "generate:types": "dts-buddy && npm run format",
+    "prepublishOnly": "npm run generate:types"
   },
   "types": "./types/index.d.ts",
   "module": "src/main/index.js",
@@ -25,6 +23,7 @@
     },
     "./runtime": {
       "types": "./types/index.d.ts",
+      "import": "./src/runtime/index.js",
       "default": "./src/runtime/index.js"
     }
   },

@@ -11,6 +11,13 @@ export const pluginHooks = async () => ({
         '../../houdini-svelte/runtime/stores/base.js'
       );
       return fixedImports;
+    },
+    ['index.d.ts']: ({ content }) => {
+      const fixedImports = content.replaceAll(
+        '../houdini-svelte/index.js',
+        '../../houdini-svelte/runtime/stores/base.js'
+      );
+      return fixedImports;
     }
   }
 });
