@@ -16,7 +16,8 @@
 		"StoreData",
 		"Subscriber",
 		"QueryResult",
-		"discriminatedBase"
+		"discriminatedBase",
+		"discriminatedBaseAsync"
 	],
 	"sources": [
 		"../src/index.js",
@@ -36,5 +37,5 @@
 		null,
 		null
 	],
-	"mappings": ";iBAGaA,WAAWA;;;;;;;;kBCMRC,aAAaA;;;;;;YCJJC,SAASA;;;;;;;aCFtBC,kBAAkBA;aAClBC,aAAaA;OCFbC,aAAaA;;;;;;;;;;YAURC,WAAWA;;YAEXC,SAASA;;;;;YAKTC,aAAaA;;;;;YAKbC,WAAWA;;;;;;OAMhBC,UAAUA;;OAEVC,SAASA;;;;;;;;;;;OAYTC,UAAUA;OC5CVC,WAAWA;;;;;;;;;iBCYPC,iBAAiBA"
+	"mappings": ";iBAGaA,WAAWA;;;;;;;kBCMRC,aAAaA;;;;;;YCLJC,SAASA;;;aCDtBC,kBAAkBA;aAClBC,aAAaA;OCFbC,aAAaA;;;;;;;;;;YAURC,WAAWA;;YAEXC,SAASA;;;;;YAKTC,aAAaA;;;;;YAKbC,WAAWA;;;;;;OAMhBC,UAAUA;;OAEVC,SAASA;;;;;;;;;;;OAYTC,UAAUA;OC5CVC,WAAWA;;;;;;;;;iBCYPC,iBAAiBA;;iBAsFXC,sBAAsBA"
 }

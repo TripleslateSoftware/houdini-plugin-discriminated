@@ -85,3 +85,17 @@ export function discriminatedBase(statedStore, dataSubscriber, restSubscriber) {
     subscribe: store.subscribe
   };
 }
+
+/**
+ * @template {import("./private").StatedStore<any>} Store
+ * @template Transformed
+ * @template Rest
+ *
+ * @param {Promise<Store>} statedStore
+ * @param {import('./private.js').Subscriber<import('./private').StoreData<Store>, Transformed>} dataSubscriber
+ * @param {import('./private.js').Subscriber<import('./private').StoreValue<Store>, Rest>=} restSubscriber
+ * @returns {Promise<import('./public.js').Discriminated<Transformed, Rest>>}
+ */
+export async function discriminatedBaseAsync(statedStore, dataSubscriber, restSubscriber) {
+  return discriminatedBase(await statedStore, dataSubscriber, restSubscriber);
+}

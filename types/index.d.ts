@@ -6,18 +6,13 @@ declare module 'houdini-plugin-discriminated' {
 
 declare module 'houdini-plugin-discriminated/runtime' {
   import type { Readable } from 'svelte/store';
-  import type { DocumentArtifact, GraphQLObject, GraphQLVariables } from 'houdini';
   export function discriminated<Store extends BaseStore<any, any, any>, Transformed>(
     statedStore: Store,
     subscriber: Subscriber<StoreData<Store>, Transformed>
   ): Readable<
     DiscriminatedState<Transformed> & Omit<StoreValue<Store>, keyof DiscriminatedState<Transformed>>
   >;
-  interface BaseStore<
-    _Data extends GraphQLObject,
-    _Input extends GraphQLVariables,
-    _Artifact extends DocumentArtifact = DocumentArtifact
-  > {
+  interface BaseStore<_Data, _Input, _Artifact> {
     subscribe(...args: Parameters<Readable<QueryResult<_Data, _Input>>['subscribe']>): () => void;
   }
   export type DiscriminatedState<T> = DataState<T> | FetchingState | ErrorsState;
@@ -78,6 +73,12 @@ declare module 'houdini-plugin-discriminated/runtime' {
     dataSubscriber: Subscriber<StoreData<Store>, Transformed>,
     restSubscriber?: Subscriber<StoreValue<Store>, Rest> | undefined
   ): Discriminated<Transformed, Rest>;
+
+  export function discriminatedBaseAsync<Store extends StatedStore<any>, Transformed, Rest>(
+    statedStore: Promise<Store>,
+    dataSubscriber: Subscriber<StoreData<Store>, Transformed>,
+    restSubscriber?: Subscriber<StoreValue<Store>, Rest> | undefined
+  ): Promise<Discriminated<Transformed, Rest>>;
 }
 
 //# sourceMappingURL=index.d.ts.map
