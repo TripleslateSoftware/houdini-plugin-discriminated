@@ -13,3 +13,12 @@ export function discriminated<Store extends BaseStore<any, any, any>, Transforme
 ): Readable<
   DiscriminatedState<Transformed> & Omit<StoreValue<Store>, keyof DiscriminatedState<Transformed>>
 >;
+
+export function discriminatedAsync<Store extends BaseStore<any, any, any>, Transformed>(
+  statedStore: Promise<Store>,
+  subscriber: Subscriber<StoreData<Store>, Transformed>
+): Promise<
+  Readable<
+    DiscriminatedState<Transformed> & Omit<StoreValue<Store>, keyof DiscriminatedState<Transformed>>
+  >
+>;
