@@ -88,3 +88,48 @@ describe('discriminatedBase', async () => {
     {}
   );
 });
+
+describe('unexpected errors', async () => {
+  test('dataSubscriber', async () => {
+    const data = {
+      name: 'hello'
+    };
+    const variables = ['test'];
+
+    /**
+     * @type {import('svelte/store').Writable<import('../runtime/private').IncomingState<typeof data> & { variables: string[] }>}
+     */
+    const statedStore = writable({
+      data: null,
+      fetching: true,
+      errors: null,
+      variables: []
+    });
+    const discriminatedStore = discriminatedBase(
+      statedStore,
+      // @ts-ignore
+      async (data) => functionThatDoesntExist(data),
+      async (value) => ({
+        variables: value.variables
+      })
+    );
+
+    // need these phony awaits because subscribers are not yet resolved
+    await statedStore.set({
+      data,
+      fetching: false,
+      errors: null,
+      variables: variables
+    });
+    const $discriminatedStore = get(await discriminatedStore);
+    expect($discriminatedStore.data).toBe(undefined);
+    // with false fetching
+    expect($discriminatedStore.fetching).toBe(false);
+    // with undefined errors
+    expect($discriminatedStore.errors).toStrictEqual([
+      { message: 'ReferenceError: functionThatDoesntExist is not defined' }
+    ]);
+    // with variables
+    expect($discriminatedStore.variables).toBe(variables);
+  });
+});

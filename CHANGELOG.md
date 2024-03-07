@@ -1,5 +1,11 @@
 # houdini-plugin-discriminated
 
+## 0.2.2
+
+### Patch Changes
+
+- handle non-string errors thrown in subscribers
+
 ## 0.2.1
 
 ### Patch Changes
