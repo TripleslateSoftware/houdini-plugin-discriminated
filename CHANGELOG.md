@@ -1,5 +1,11 @@
 # houdini-plugin-discriminated
 
+## 0.3.0
+
+### Minor Changes
+
+- fix: return `Discriminated` type from store functions in declaration
+
 ## 0.2.2
 
 ### Patch Changes
