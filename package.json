@@ -28,7 +28,7 @@
     "generate:types": "dts-buddy && npm run format",
     "prepublishOnly": "npm run generate:types",
     "changeset:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "changeset:publish": "pnpm build && changeset publish"
+    "changeset:publish": "changeset publish"
   },
   "peerDependencies": {
     "houdini": "^1.5.0",
