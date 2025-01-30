@@ -2,6 +2,8 @@ declare module 'houdini-plugin-discriminated' {
   export function pluginHooks(): Promise<import('houdini').PluginHooks>;
   const _default: import('houdini').PluginInit;
   export default _default;
+
+  export {};
 }
 
 declare module 'houdini-plugin-discriminated/runtime' {
@@ -84,6 +86,8 @@ declare module 'houdini-plugin-discriminated/runtime' {
     dataSubscriber: Subscriber<StoreData<Store>, Transformed>,
     restSubscriber?: Subscriber<StoreValue<Store>, Rest> | undefined
   ): Promise<Discriminated<Transformed, Rest>>;
+
+  export {};
 }
 
 //# sourceMappingURL=index.d.ts.map
