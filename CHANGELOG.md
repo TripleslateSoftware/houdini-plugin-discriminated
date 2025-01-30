@@ -1,5 +1,11 @@
 # houdini-plugin-discriminated
 
+## 0.4.0-next.0
+
+### Minor Changes
+
+- f3f9b45: support `svelte` 5 and `houdini-svelte` 2
+
 ## 0.3.0
 
 ### Minor Changes
