@@ -26,7 +26,9 @@
     "check:watch": "tsc --watch",
     "format": "prettier . --write",
     "generate:types": "dts-buddy && npm run format",
-    "prepublishOnly": "npm run generate:types"
+    "prepublishOnly": "npm run generate:types",
+    "changeset:version": "changeset version && pnpm install --no-frozen-lockfile",
+    "changeset:publish": "pnpm build && changeset publish"
   },
   "peerDependencies": {
     "houdini": "^1.5.0",
